@@ -22,9 +22,11 @@ public class connect {
         String userPassword = "";
         String userName = "";
         String appID = "";
+        String clientID = "";
+        String secretID = "";
 
         //Authentication
-        Credentials credentials = Credentials.script(userName, userPassword, "4o0vrAzhAeegxg", "G5VAb9hO1aYdMrl16tN_VZ3sNRI");
+        Credentials credentials = Credentials.script(userName, userPassword, clientID, secretID);
         UserAgent userAgent = new UserAgent("bot", appID, "v1.0", userName);
         NetworkAdapter adapter = new OkHttpNetworkAdapter(userAgent);
         RedditClient reddit = OAuthHelper.automatic(adapter, credentials);
