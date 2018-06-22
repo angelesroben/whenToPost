@@ -18,21 +18,23 @@ import java.util.List;
 public class connect {
 
     public static void main(String[] args){
-        String subredditName = "";
-        String userPassword = "";
-        String userName = "";
-        String appID = "";
-        String clientID = "";
-        String secretID = "";
+        final String subredditName = "";
+        final String userName = "";
+        final String userPassword = "!";
+        final String appID = "";
+        final String clientID = "";
+        final String secretID = "";
+        final String platform = "";
+        final String versionNum = "";
 
         //Authentication
         Credentials credentials = Credentials.script(userName, userPassword, clientID, secretID);
-        UserAgent userAgent = new UserAgent("bot", appID, "v1.0", userName);
+        UserAgent userAgent = new UserAgent(platform, appID, versionNum, userName);
         NetworkAdapter adapter = new OkHttpNetworkAdapter(userAgent);
-        RedditClient reddit = OAuthHelper.automatic(adapter, credentials);
+        RedditClient redditClient = OAuthHelper.automatic(adapter, credentials);
 
-        //Top 300 Posts for the last year
-        DefaultPaginator<Submission> paginator = reddit.subreddit(subredditName).posts()
+        //Top 300 Posts for the last year (25 posts each page [12pgs])
+        DefaultPaginator<Submission> paginator = redditClient.subreddit(subredditName).posts()
                 .sorting(SubredditSort.TOP)
                 .timePeriod(TimePeriod.YEAR)
                 .limit(25)
@@ -50,11 +52,13 @@ public class connect {
             Listing<Submission> pages = pageList.get(i);
             for(int j = 0; j < pages.size(); j++){
                 Submission s = pages.get(j);
+
                 Date thisDate = s.getCreated();
                 SimpleDateFormat localDateFormat = new SimpleDateFormat("HH");
                 String sTime = localDateFormat.format(thisDate);
                 int iTime = Integer.parseInt(sTime);
                 hourArr[iTime]++;
+
                 if(iTime < 12) timeMap.put("Morning", timeMap.get("Morning") + 1);
                 else if(iTime >= 12 && iTime < 17) timeMap.put("Afternoon", timeMap.get("Afternoon") + 1);
                 else timeMap.put("Night", timeMap.get("Night") + 1);
@@ -73,7 +77,7 @@ public class connect {
         for(int i = 0; i < hourArr.length; i++){
             if(i == 12) System.out.println("Afternoon: ");
             if(i == 17) System.out.println("Night: ");
-            System.out.println("Hour: " + i + ". #: " + hourArr[i]);
+            System.out.println("Hour: " + i + ". Count: " + hourArr[i]);
 
 
         }
