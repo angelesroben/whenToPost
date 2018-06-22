@@ -17,7 +17,7 @@ import java.util.List;
 
 public class connect {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         final String subredditName = "";
         final String userName = "";
         final String userPassword = "!";
@@ -48,9 +48,9 @@ public class connect {
         timeMap.put("Night", 0);
 
         //Iterate through all the submissions in each page and increment time of day hashmap and the specific hour array
-        for(int i = 0; i < pageList.size(); i++){
+        for (int i = 0; i < pageList.size(); i++) {
             Listing<Submission> pages = pageList.get(i);
-            for(int j = 0; j < pages.size(); j++){
+            for (int j = 0; j < pages.size(); j++) {
                 Submission s = pages.get(j);
 
                 Date thisDate = s.getCreated();
@@ -59,8 +59,8 @@ public class connect {
                 int iTime = Integer.parseInt(sTime);
                 hourArr[iTime]++;
 
-                if(iTime < 12) timeMap.put("Morning", timeMap.get("Morning") + 1);
-                else if(iTime >= 12 && iTime < 17) timeMap.put("Afternoon", timeMap.get("Afternoon") + 1);
+                if (iTime < 12) timeMap.put("Morning", timeMap.get("Morning") + 1);
+                else if (iTime >= 12 && iTime < 17) timeMap.put("Afternoon", timeMap.get("Afternoon") + 1);
                 else timeMap.put("Night", timeMap.get("Night") + 1);
             }
         }
@@ -68,15 +68,15 @@ public class connect {
 
         //Printing out
         System.out.println("Top Post Statistics for r/" + subredditName);
-        for(HashMap.Entry<String, Integer> entry : timeMap.entrySet()){
+        for (HashMap.Entry<String, Integer> entry : timeMap.entrySet()) {
             System.out.println(entry.getKey() + " time had " + entry.getValue() + " of the highest posts in the last year.");
         }
 
         System.out.println("HOUR BREAKDOWN:");
         System.out.println("Morning: ");
-        for(int i = 0; i < hourArr.length; i++){
-            if(i == 12) System.out.println("Afternoon: ");
-            if(i == 17) System.out.println("Night: ");
+        for (int i = 0; i < hourArr.length; i++) {
+            if (i == 12) System.out.println("Afternoon: ");
+            if (i == 17) System.out.println("Night: ");
             System.out.println("Hour: " + i + ". Count: " + hourArr[i]);
 
 
