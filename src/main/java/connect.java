@@ -31,7 +31,7 @@ public class connect {
         NetworkAdapter adapter = new OkHttpNetworkAdapter(userAgent);
         RedditClient reddit = OAuthHelper.automatic(adapter, credentials);
 
-        //Top 300 Posts for the last year (300 = 25 (front page max) * 12 (months))
+        //Top 300 Posts for the last year
         DefaultPaginator<Submission> paginator = reddit.subreddit(subredditName).posts()
                 .sorting(SubredditSort.TOP)
                 .timePeriod(TimePeriod.YEAR)
